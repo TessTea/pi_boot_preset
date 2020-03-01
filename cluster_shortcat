@@ -60,4 +60,15 @@ sudo apt-mark hold kubelet kubeadm kubectl
 sudo echo "CONF_SWAPSIZE=0" > /etc/dphys-swapfile
 sudo swapoff -a
 
+# Starting cluster
+sudo kubeadm init --pod-network-cidr=10.244.0.0/16
+
+# Creating config for non-root-user
+mkdir -p /home/tess/.kube
+sudo cp -i /etc/kubernetes/admin.conf /home/tess/.kube/config
+sudo chown tess:tess /home/tess/.kube/config
+
+# Apply the Flannel cni
+su - tess
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 
