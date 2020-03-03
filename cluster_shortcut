@@ -72,3 +72,6 @@ sudo chown tess:tess /home/tess/.kube/config
 su - tess
 kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 
+# Untaint master nodes
+kubectl taint nodes --all node-role.kubernetes.io/master-
+
