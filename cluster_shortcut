@@ -8,7 +8,7 @@ sudo usermod -aG sudo tess
 echo -e "kjkszpj\nkjkszpj" | sudo passwd tess
 sudo chown tess:tess /home/tess
 
-sudo apt-get update && sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common vim
+sudo apt-get update && sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common vim bash-completion
 # Add Docker’s official GPG key
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 
@@ -75,3 +75,5 @@ kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documen
 # Untaint master nodes
 kubectl taint nodes --all node-role.kubernetes.io/master-
 
+# Setup autocompletion
+echo "source <(kubectl completion bash)" >> ~/.bashrc
