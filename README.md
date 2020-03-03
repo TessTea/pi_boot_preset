@@ -1,8 +1,8 @@
-# Botstrap Raspberry Pi as single-node K8S cluster with Flannel CNI
+# Botstrap headless Raspberry Pi as single-node K8S cluster with Flannel CNI
 
 ## How can i use it:
 - Flash SD card with raspbian lite
-- Substitute fields "ssid" & "psk" with your current wifi parameters
+- Substitute fields "ssid" & "psk" in "wpa_supplicant.conf" with your current wifi parameters
 - Copy files "ssh" and "wpa_supplicant.conf" to the root of /boot partition on your SD-card
 - Remove card, plug it into your RPi 3B+ or higher and power it on
 - Give it 30 seconds to boot
