@@ -1,4 +1,4 @@
-# Botstrap Raspberry Pi as single-node K8S cluster
+# Botstrap Raspberry Pi as single-node K8S cluster with Flannel CNI
 
 ## How can i use it:
 - Flash SD card with raspbian lite
