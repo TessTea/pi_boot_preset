@@ -1,0 +1,60 @@
+#!/bin/bash
+
+# Disable swap:
+
+dphys-swapfile swapoff
+systemctl disable dphys-swapfile
+
+# System package upgrade:
+
+apt-get update && apt-get dist-upgrade -y
+
+# Reboot:
+
+reboot
+
+# Install docker:
+
+apt-get install -y apt-transport-https curl bridge-utils
+curl https://get.docker.com | bash
+
+# Setup docker-daemon to use systemd:
+sudo cat > /etc/docker/daemon.json <<EOF
+{
+  "exec-opts": ["native.cgroupdriver=systemd"],
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "100m"
+  },
+  "storage-driver": "overlay2"
+}
+EOF
+
+sudo mkdir -p /etc/systemd/system/docker.service.d
+
+# Restart docker.
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+
+# Install kubernetes:
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+cat <<EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
+deb https://apt.kubernetes.io/ kubernetes-xenial main
+EOF
+sudo apt-get update
+
+sudo apt-get install -y kubelet kubeadm kubectl kubernetes-cni
+
+# Kubernetes images pre-pull:
+
+kubeadm config images pull
+
+# Kubeadm init:
+kubeadm init --pod-network-cidr=10.1.0.0/16 --service-cidr=10.2.0.0/16 --upload-certs #--experimental-cluster-signing-duration=87600
+
+# Add calico cni:
+
+kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+
+# Untaint master nodes
+kubectl taint nodes --all node-role.kubernetes.io/master-
