@@ -1,0 +1,57 @@
+hostname: pi-pot
+manage_etc_hosts: true
+# don't write debian.org into apt mirrors
+# apt_preserve_sources_list: true
+
+users:
+  - name: foo                # use any user name you like
+    primary-group: users
+    shell: /bin/bash
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    groups: users,docker,adm,dialout,audio,plugdev,netdev,video
+    ssh-import-id: None
+    lock_passwd: true
+    ssh-authorized-keys:
+      - ssh-rsa AAAA....NN   # insert your SSH public key ~/.ssh/id_rsa.pub here
+
+
+# # Set the locale of the system
+locale: "en_US.UTF-8"
+
+# # Set the timezone
+# # Value of 'timezone' must exist in /usr/share/zoneinfo
+timezone: "Europe/Moscow"
+
+# # Update apt packages on first boot
+package_update: true
+package_upgrade: true
+package_reboot_if_required: true
+# package_upgrade: false
+
+# # Install any additional apt packages you need here
+packages:
+ - ntp
+ - htop
+ - curl
+ - vim
+ - unzip
+ - tar
+ - tmux
+
+
+# # WiFi connect to HotSpot
+# To make wifi work with RPi3 and RPi0
+# you also have to set "enable_uart=0" in config.txt
+# See no-uart-config.txt for an example.
+
+wifi:
+  interfaces:
+    wlan0:
+      ssid: "YourSSID"
+      password: "YourSecretPreSharedKey"
+
+# These commands will be ran once on first boot only
+runcmd:
+  - 'systemctl restart avahi-daemon'
+  - 'ifup wlan0'
+  - 'sleep 10'
