@@ -58,9 +58,9 @@ See http://cloudinit.readthedocs.io/en/0.7.9/ for more details.
 
 ### Flash and run your RPi:
 
-0. Write your configuration to the config-template.yml([examples](https://github.com/hypriot/flash/tree/master/sample))
+0. Write your configuration to the user-data
 1. Download prefered verion of [HypriotOS](https://blog.hypriot.com/downloads/)
-2. Run `flash -f hypriotos-rpi-v1.12.0.img.zip -c config-template.yml`
+2. Run `flash -f hypriotos-rpi-v1.12.0.img.zip -u user-data`
 3. Insert SD card to your notebook
 4. Press RETURN
 5. Eject SD card and insert it to your Raspberry Pi - done!
